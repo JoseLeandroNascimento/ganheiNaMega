@@ -27,8 +27,6 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-
-
         val editText = findViewById<EditText>(R.id.edit_number)
         val txtResult = findViewById<TextView>(R.id.txt_result)
         val btnGenerated = findViewById<Button>(R.id.btn_generate)
@@ -36,8 +34,8 @@ class MainActivity : AppCompatActivity() {
         prefs = getSharedPreferences("db",Context.MODE_PRIVATE)
         val result = prefs.getString("result",null)
 
-        if(result != null){
-            txtResult.text = "Ultima aposta $result"
+        result.let{
+            txtResult.text = "Ultima aposta $it"
         }
 
         btnGenerated.setOnClickListener {
