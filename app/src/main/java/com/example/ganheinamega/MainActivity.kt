@@ -1,5 +1,7 @@
 package com.example.ganheinamega
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -12,6 +14,9 @@ import androidx.core.view.WindowInsetsCompat
 import java.util.Random
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var prefs: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -22,9 +27,18 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+
+
         val editText = findViewById<EditText>(R.id.edit_number)
         val txtResult = findViewById<TextView>(R.id.txt_result)
         val btnGenerated = findViewById<Button>(R.id.btn_generate)
+
+        prefs = getSharedPreferences("db",Context.MODE_PRIVATE)
+        val result = prefs.getString("result",null)
+
+        if(result != null){
+            txtResult.text = "Ultima aposta $result"
+        }
 
         btnGenerated.setOnClickListener {
 
@@ -64,6 +78,10 @@ class MainActivity : AppCompatActivity() {
         val numbersSort = numbers.sorted()
 
         txtResult.text = numbersSort.joinToString(" - ")
+
+        val editor = prefs.edit()
+        editor.putString("result",txtResult.text.toString())
+        editor.apply()
 
     }
 
