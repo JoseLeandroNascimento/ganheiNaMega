@@ -2,14 +2,15 @@ package com.example.ganheinamega
 
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import java.util.Random
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,18 +28,46 @@ class MainActivity : AppCompatActivity() {
         val btnGenerated = findViewById<Button>(R.id.btn_generate)
 
         btnGenerated.setOnClickListener{
-            Log.i("Teste","Botão clicado!!!(3)")
+
+            val text = editText.text.toString()
+
+            if(text.isNotEmpty()){
+
+                val qtd = text.toInt()
+
+                if(qtd >= 6 && qtd <= 15){
+
+                    val numbers = mutableSetOf<Int>()
+                    val random = Random()
+
+                    while(true){
+
+                        val number = 1 + random.nextInt(60)
+                        numbers.add(number)
+
+                        if(numbers.size == qtd){
+                            break
+                        }
+                    }
+
+                    val numbersSort = numbers.sorted()
+
+                    numberGenerator(numbersSort.joinToString(" - "),txtResult)
+
+                }else{
+                    Toast.makeText(this,"Informe um número entre 6 e 15",Toast.LENGTH_LONG).show()
+                }
+            }else{
+                Toast.makeText(this,"Informe um número entre 6 e 15",Toast.LENGTH_LONG).show()
+            }
         }
 
     }
 
-    val buttonClickListener = object : View.OnClickListener{
-        override fun onClick(v: View?) {
-            Log.i("Teste","Botão clicado!!! (2)")
-        }
+    private fun numberGenerator(text:String,txtResult:TextView){
+
+        txtResult.text = text
     }
 
-    fun generatedClicked(view:View){
-        Log.i("Teste","Botão clicado!!! (1)")
-    }
+
 }
