@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         prefs = getSharedPreferences("db",Context.MODE_PRIVATE)
         val result = prefs.getString("result",null)
 
-        result.let{
+        result?.let{
             txtResult.text = "Ultima aposta $it"
         }
 
